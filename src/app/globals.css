@@ -429,8 +429,8 @@ h1,h2,h3,h4,h5 {
    BUTTONS
    ============================================================ */
 .btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  padding: 10px 18px; border-radius: var(--r-full);
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 8px 14px; border-radius: var(--r-full);
   font-size: var(--text-sm); font-weight: 700;
   border: 0; transition: var(--transition);
   white-space: nowrap; cursor: pointer;
@@ -460,9 +460,9 @@ h1,h2,h3,h4,h5 {
 }
 .btn-danger:hover { background: rgba(192,57,43,.18); }
 
-.btn-sm { padding: 6px 14px; font-size: var(--text-xs); }
-.btn-square { padding: 8px; border-radius: var(--r-md); }
-.btn-icon { padding: 8px; border-radius: var(--r-full); }
+.btn-sm { padding: 4px 10px; font-size: var(--text-xs); }
+.btn-square { padding: 6px; border-radius: var(--r-md); }
+.btn-icon { padding: 6px; border-radius: var(--r-full); }
 
 /* ============================================================
    FORM ELEMENTS
