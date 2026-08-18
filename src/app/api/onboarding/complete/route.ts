@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     // Update existing
     await prisma.profile.update({
       where: { userId: session.userId },
-      data: { name, bio: bio || "", slug: cleanSlug, theme: theme || "matcha", onboarded: true },
+      data: { name, bio: bio || "", slug: cleanSlug, theme: theme || "default", onboarded: true },
     });
   } else {
     // Create new profile
@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
         userId: session.userId,
         name, bio: bio || "",
         slug: cleanSlug,
-        theme: theme || "matcha",
+        theme: theme || "default",
         onboarded: true,
       },
     });

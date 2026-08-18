@@ -7,12 +7,12 @@ import { slugify, initialsFromName } from "@/lib/utils";
 import styles from "./onboarding.module.css";
 
 const THEMES = [
-  { id:"indigo",  label:"Indigo",   color:"#4F46E5" },
-  { id:"slate",   label:"Slate",    color:"#334155" },
-  { id:"crimson", label:"Crimson",  color:"#DC2626" },
-  { id:"amber",   label:"Amber",    color:"#D97706" },
-  { id:"emerald", label:"Emerald",  color:"#059669" },
-  { id:"rose",    label:"Rose",     color:"#E11D48" },
+  { id:"default",     label:"Classic",    color:"#a78bfa" },
+  { id:"clean-dark",  label:"Clean Dark", color:"#334155" },
+  { id:"aurora",      label:"Aurora",     color:"#06b6d4" },
+  { id:"frosted-rose",label:"Rose",       color:"#E11D48" },
+  { id:"midnight",    label:"Midnight",   color:"#4F46E5" },
+  { id:"forest",      label:"Forest",     color:"#059669" },
 ];
 
 type Step = 1|2|3|4|5;
@@ -27,7 +27,7 @@ export default function OnboardingPage() {
   const [slugChecking, setSlugChecking] = useState(false);
   const [linkTitle, setLinkTitle] = useState("");
   const [linkUrl, setLinkUrl] = useState("");
-  const [theme, setTheme] = useState("indigo");
+  const [theme, setTheme] = useState("default");
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState("");
 
