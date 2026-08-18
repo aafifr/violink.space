@@ -20,8 +20,8 @@ export async function POST(req: NextRequest) {
     const cookie = createSessionCookie(token);
     res.cookies.set(cookie.name, cookie.value, cookie);
     return res;
-  } catch (e) {
+  } catch (e: any) {
     console.error(e);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: e?.message || "Internal server error" }, { status: 500 });
   }
 }
