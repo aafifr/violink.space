@@ -1,0 +1,363 @@
+/* ───── ANIMATIONS ───── */
+@keyframes fade-up   { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+/* link-in: opacity-only so no transform stacking-context blocks backdrop-filter */
+@keyframes link-in   { from{opacity:0} to{opacity:1} }
+/* separate slide-up that does NOT use fill-mode:both, so transform is gone after animation */
+@keyframes link-slide { from{transform:translateY(8px)} to{transform:none} }
+
+/* ───── PAGE WRAPPER ───── */
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  /* Use CSS variable — gradient or solid color both work */
+  background: var(--pub-page-bg, #F3F4F6);
+  color: var(--pub-ink, var(--ink));
+}
+
+/* ───── DESKTOP ───── */
+@media (min-width: 768px) {
+  .page {
+    padding: 48px 24px 0;
+    min-height: 100vh;
+  }
+
+  /* Default card panel (Clean & Dark themes) */
+  .card {
+    background: var(--pub-card-bg, #FFFFFF);
+    border: 1px solid var(--pub-card-border, rgba(0,0,0,0.06));
+    border-bottom: none;
+    border-radius: 24px 24px 0 0;
+    padding: 48px 40px 40px;
+    min-height: calc(100vh - 48px);
+    box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.04);
+  }
+
+  /* Glass themes: frosted panel on desktop */
+  [data-theme="aurora"] .card,
+  [data-theme="frosted-rose"] .card {
+    background: var(--pub-card-bg);
+    border: 1px solid var(--pub-card-border);
+    border-bottom: none;
+    box-shadow: none;
+    backdrop-filter: blur(32px) saturate(160%);
+    -webkit-backdrop-filter: blur(32px) saturate(160%);
+  }
+
+  /* Brutal themes: hard border panel on desktop */
+  [data-theme="neobrutalism"] .card,
+  [data-theme="retro-pop"] .card {
+    background: var(--pub-card-bg);
+    border: 2px solid var(--pub-card-border);
+    border-bottom: none;
+    box-shadow: none;
+  }
+}
+
+/* ───── MOBILE ───── */
+@media (max-width: 767px) {
+  .page {
+    /* Full-bleed padding — no card panel visible */
+    padding: 48px 20px 80px;
+    /* If --adaptive-ink is set, use it to ensure legibility on the background */
+    color: var(--adaptive-ink, var(--pub-ink, var(--ink)));
+  }
+
+  .card {
+    /* Transparent & borderless on mobile for all themes */
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    min-height: calc(100vh - 128px);
+    padding: 0;
+  }
+}
+
+/* ───── CUSTOM BACKGROUND OVERRIDE (For both Desktop & Mobile) ───── */
+/* When a user applies a custom background (Solid, Gradient, Image), it behaves like Linktree:
+   1. The Card is completely removed (elements float directly on the background).
+   2. All text elements use --adaptive-ink to ensure perfect contrast against the background. */
+.customBgActive .card {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.customBgActive .name,
+.customBgActive .bio,
+.customBgActive .linkGroupHeader,
+.customBgActive .footerBrand {
+  color: var(--adaptive-ink, var(--pub-ink, var(--ink))) !important;
+}
+
+.customBgActive .footer {
+  color: var(--adaptive-ink, var(--pub-muted, var(--muted))) !important;
+  opacity: 0.85; /* Ensures the muted look if adaptive-ink is pure white/black */
+}
+
+/* Share button should also adapt since it sits directly on the background */
+.customBgActive .shareBtn {
+  color: var(--adaptive-ink, var(--pub-ink, var(--ink))) !important;
+  background: rgba(255,255,255,0.08) !important;
+  border-color: rgba(255,255,255,0.15) !important;
+}
+.customBgActive .shareBtn:hover {
+  background: rgba(255,255,255,0.15) !important;
+}
+
+/* When a custom background is active, ensure link buttons are ALWAYS clearly visible.
+   Themes like Midnight & Forest use near-transparent buttons (6-7% opacity) by default,
+   which become invisible over a background image. Override with a solid frosted glass look
+   ONLY when no custom button style (btnStyle) has been manually set by the user. */
+.customBgActive .link {
+  background: var(--pub-link-bg, rgba(255,255,255,0.15)) !important;
+  border-color: var(--pub-link-border, rgba(255,255,255,0.25)) !important;
+  -webkit-backdrop-filter: var(--pub-link-backdrop, blur(16px)) !important;
+  backdrop-filter: var(--pub-link-backdrop, blur(16px)) !important;
+}
+.customBgActive .link:hover {
+  background: var(--pub-link-hover-bg, rgba(255,255,255,0.24)) !important;
+  border-color: var(--pub-link-hover-border, rgba(255,255,255,0.38)) !important;
+}
+
+/* ───── CARD (base, all viewports) ───── */
+.card {
+  position: relative;
+  width: 100%; max-width: 480px;
+  display: flex; flex-direction: column; align-items: center;
+  animation: fade-up .4s cubic-bezier(.25,.46,.45,.94);
+}
+
+/* ───── AVATAR ───── */
+.avatarWrap {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.avatarCore {
+  position: relative; z-index: 1;
+  width: 108px; height: 108px; border-radius: var(--r-circle);
+  background: var(--pub-card-bg, var(--bg));
+  border: 2px solid var(--pub-card-border, var(--line));
+  font-family: var(--display); font-size: 2.4rem;
+  color: var(--accent-str);
+  display: grid; place-items: center;
+  box-shadow: var(--pub-avatar-ring, none);
+  transition: box-shadow 500ms;
+}
+
+.avatarPhoto {
+  position: relative; z-index: 1;
+  width: 108px; height: 108px; border-radius: var(--r-circle);
+  object-fit: cover; display: block;
+  box-shadow: var(--pub-avatar-ring, none);
+  transition: box-shadow 500ms;
+}
+
+/* ───── IDENTITY ───── */
+.identity {
+  text-align: center; margin-bottom: 12px;
+  animation: fade-up .5s cubic-bezier(.25,.46,.45,.94) .08s both;
+}
+
+.name {
+  font-size: clamp(2rem, 6vw, 3rem);
+  letter-spacing: -.04em; margin-bottom: 10px;
+  color: var(--pub-ink, var(--ink));
+}
+
+.bio {
+  max-width: 360px; margin: 0 auto 10px;
+  color: var(--pub-muted, var(--muted)); font-size: 1rem; line-height: 1.68;
+}
+
+/* ───── SOCIAL ICONS ROW ───── */
+.socialRow {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; margin-bottom: 36px;
+  animation: fade-up .45s .16s both;
+}
+
+.socialIcon {
+  width: 44px; height: 44px; border-radius: var(--r-circle);
+  display: grid; place-items: center; overflow: hidden; flex-shrink: 0;
+  text-decoration: none;
+  background: var(--pub-link-bg, rgba(255,255,255,0.7));
+  border: 1px solid var(--pub-link-border, rgba(0,0,0,0.07));
+  transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
+  position: relative;
+}
+.socialIcon:hover {
+  background: var(--pub-link-hover-bg, var(--bg-strong));
+  border-color: var(--line-strong, rgba(0,0,0,0.15));
+}
+
+/* If a custom background is active, ensure generic social icons adapt their icon color if their background is transparent */
+.customBgActive .socialIcon {
+  color: var(--adaptive-ink, var(--pub-ink, var(--ink)));
+}
+.socialIcon:active { transform: scale(0.93); }
+
+/* ───── LINKS NAV ───── */
+.links { width: 100%; display: grid; gap: 11px; margin-bottom: 36px; }
+
+/* ───── LINK GROUP HEADER ───── */
+.linkGroupHeader {
+  font-family: var(--display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--pub-ink, var(--ink));
+  margin: 12px 0 2px;
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+/* ───── LINK CARD ───── */
+.link {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px;
+  border-radius: var(--pub-link-radius, var(--r-lg));
+  background: var(--pub-link-bg, #FFFFFF);
+  border: 1px solid var(--pub-link-border, rgba(0,0,0,0.08));
+  color: var(--pub-link-color, var(--pub-ink, var(--ink)));
+  text-decoration: none; cursor: pointer;
+  -webkit-backdrop-filter: var(--pub-link-backdrop, none);
+  backdrop-filter: var(--pub-link-backdrop, none);
+  box-shadow: var(--pub-link-shadow, none);
+  transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease, transform 120ms ease;
+  /* Clean fade-up animation with no fill-mode so compositor layer is detached after animation */
+  animation: fade-up .4s cubic-bezier(.25,.46,.45,.94);
+  min-height: 60px;
+  position: relative;
+}
+
+.link:hover {
+  background: var(--pub-link-hover-bg, var(--bg-strong));
+  border-color: var(--pub-link-hover-border, var(--line-strong, rgba(0,0,0,0.15)));
+}
+
+/* Neobrutalism hover: lift effect */
+[data-theme="neobrutalism"] .link:hover,
+[data-theme="retro-pop"] .link:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--pub-card-border, #0A0A0B);
+}
+
+/* ───── LINK ICON ───── */
+.linkIcon {
+  width: 40px; height: 40px; border-radius: var(--r-circle);
+  display: grid; place-items: center; flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* ───── LINK TITLE ───── */
+.linkTitle {
+  flex: 1; font-weight: 700; font-size: .96rem;
+  letter-spacing: -.01em; text-align: center;
+  color: var(--pub-link-color, var(--pub-ink, var(--ink)));
+}
+
+.arrow { color: var(--pub-link-color, var(--pub-muted, var(--muted))); flex-shrink: 0; line-height: 0; }
+
+.noLinks { text-align: center; color: var(--pub-muted, var(--muted)); padding: 24px; font-size: .94rem; }
+
+/* ───── FOOTER ───── */
+.footer {
+  display: flex; align-items: center; gap: 7px;
+  color: var(--pub-muted, var(--muted)); font-size: .8rem; margin-top: auto; padding-top: 40px;
+  animation: fade-up .5s .5s both;
+}
+.footerBrand {
+  color: var(--pub-ink, var(--ink)); font-weight: 800;
+  font-family: var(--display); font-size: .9rem;
+  letter-spacing: -.02em; transition: opacity 200ms;
+}
+.footerBrand:hover { opacity: .6; }
+
+/* ───── HEADER BUTTONS (Share) ───── */
+.headerButtons {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  padding: 16px;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* ───── SHARE BUTTON ───── */
+.shareBtn {
+  pointer-events: auto;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 38px; height: 38px;
+  border-radius: var(--r-circle);
+  border: 1px solid var(--pub-link-border, var(--line));
+  background: var(--pub-card-bg, var(--surface));
+  color: var(--pub-ink, var(--ink));
+  cursor: pointer;
+  transition: background 200ms ease, border-color 200ms ease;
+  animation: fade-up 0.5s 0.2s both;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.shareBtn:hover {
+  background: var(--pub-link-hover-bg, var(--bg-strong));
+  border-color: var(--line-strong, rgba(0,0,0,0.15));
+}
+.shareBtn:active { opacity: 0.7; }
+
+/* CSS Tooltip */
+.shareBtn::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 5px 10px;
+  border-radius: var(--r-sm);
+  background: var(--pub-ink, var(--ink));
+  color: var(--pub-card-bg, var(--bg));
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+.shareBtn:hover::after { opacity: 1; }
+
+/* ───── RESPONSIVE ───── */
+@media (min-width: 768px) {
+  .headerButtons {
+    position: absolute;
+    top: 48px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 480px;
+    padding: 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .page { padding: 32px 16px 60px; }
+  .card { min-height: calc(100vh - 92px); }
+  .link { padding: 14px 16px; }
+  .avatarWrap { margin-bottom: 20px; }
+  .identity { margin-bottom: 22px; }
+
+  .shareBtn::after {
+    right: auto;
+    left: 50%;
+    top: calc(100% + 8px);
+    transform: translateX(-50%);
+  }
+}

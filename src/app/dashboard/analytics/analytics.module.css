@@ -1,0 +1,127 @@
+.page { display: grid; gap: 20px; }
+.pageHead { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+.title { font-size: clamp(1.5rem, 2.2vw, 2rem); margin-top: 4px; }
+
+/* RANGE FILTER */
+.rangeBar {
+  display: inline-flex; gap: 0; padding: 4px;
+  border-radius: var(--r-lg); background: var(--bg-strong);
+  border: none; align-self: flex-start; margin-top: 4px;
+}
+
+.rangeBtn {
+  padding: 6px 14px; border-radius: 8px; border: none;
+  background: transparent; color: var(--muted); font-size: .82rem;
+  font-weight: 600; cursor: pointer; transition: all 200ms ease; white-space: nowrap;
+}
+.rangeBtn:hover { color: var(--ink); }
+.rangeBtnActive {
+  background: var(--surface);
+  color: var(--ink); font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 1px rgba(0,0,0,.04);
+}
+
+/* FADE TRANSITION */
+.fading { opacity: .45; transition: opacity 200ms; }
+
+
+/* KPI */
+.kpiGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.kpiCard { padding: 20px; border-radius: var(--r-xl); display: grid; gap: 4px; }
+.kpiCard .eyebrow { margin-bottom: 8px; }
+.kpiVal { font-weight: 700; font-size: clamp(1.8rem, 2.4vw, 2.4rem); letter-spacing: -.02em; line-height: 1; }
+.kpiSub { font-size:.8rem; color:var(--muted); }
+
+/* 30-DAY CHART */
+.chartCard { }
+.chartTitle { font-size: clamp(.95rem, 1.4vw, 1.25rem); }
+
+.chart30 {
+  display: flex; align-items: flex-end; gap: 3px;
+  height: 140px; margin-top: 16px;
+}
+
+.barWrap { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
+
+.bar30 {
+  width: 100%; border-radius: 4px 4px 0 0;
+  background: var(--accent);
+  min-height: 2px; transition: height 500ms cubic-bezier(.25,.46,.45,.94);
+}
+.weekend { opacity: .55; }
+.thin { border-radius: 2px 2px 0 0; }
+
+.chartXAxis {
+  display: flex; justify-content: space-between;
+  margin-top: 8px; color: var(--muted);
+  font-family: var(--mono); font-size: .68rem;
+}
+
+/* BOTTOM ROW */
+.bottomRow { display: grid; grid-template-columns: 1.6fr 1fr; gap: 14px; }
+
+/* TABLE CARD */
+.tableCard { }
+.linkTable { display: grid; gap: 0; }
+
+.tableHeader {
+  display: grid; grid-template-columns: 1fr 56px 52px;
+  padding: 8px 0; border-bottom: 1px solid var(--line);
+  font-size: .72rem; font-weight: 700; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .08em;
+  column-gap: 12px;
+}
+
+.tableRow {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 0; border-bottom: 1px solid var(--line);
+  transition: var(--transition);
+}
+.tableRow:last-child { border-bottom: 0; }
+.tableRow:hover { padding-left: 4px; }
+
+.tableRank {
+  font-family: var(--mono); font-size: .72rem; color: var(--muted);
+  font-weight: 600; width: 18px; flex-shrink: 0;
+}
+
+.tableLink { flex: 1; display: grid; gap: 5px; min-width: 0; }
+.tableLinkTitle { font-weight: 600; font-size: .9rem; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tableBarTrack { height: 6px; border-radius: 999px; background: rgba(0,0,0,.05); overflow: hidden; }
+.tableBarFill { height: 100%; border-radius: inherit; background: var(--accent); transition: width 600ms; }
+
+.tableClicks { font-family: var(--mono); font-size: .8rem; color: var(--ink); width: 48px; text-align: right; flex-shrink: 0; font-weight: 500; }
+.tableShare { font-family: var(--mono); font-size: .78rem; color: var(--muted); width: 40px; text-align: right; flex-shrink: 0; }
+
+.noData { color: var(--muted); font-size: .9rem; padding: 20px 0; text-align: center; }
+
+.skeletonRow { height: 44px; border-radius: var(--r-sm); margin: 4px 0; }
+
+/* HEATMAP */
+.heatCard { }
+.heatSubtitle { font-size: .75rem; color: var(--muted); margin-top: 2px; }
+
+.heatGrid {
+  display: flex; align-items: flex-end; gap: 8px;
+  height: 140px; margin-top: 16px;
+}
+
+.heatBar {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end; gap: 8px; height: 100%;
+}
+
+.heatFill {
+  width: 100%; border-radius: 6px 6px 0 0;
+  background: var(--accent); opacity: 0.85;
+  min-height: 6px; transition: height 600ms cubic-bezier(.25,.46,.45,.94);
+}
+
+.heatLabel { font-family: var(--mono); font-size: .66rem; color: var(--muted); }
+
+@media(max-width:1100px) { .kpiGrid{grid-template-columns:repeat(2,1fr);} .bottomRow{grid-template-columns:1fr;} }
+@media(max-width:640px) { 
+  .kpiGrid{grid-template-columns:1fr 1fr;} 
+  .rangeBar { width: 100%; display: flex; align-self: stretch; }
+  .rangeBtn { flex: 1; text-align: center; padding: 7px 4px; }
+}

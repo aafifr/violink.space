@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  profile      Profile?
+}
+
+model Profile {
+  id         String      @id @default(cuid())
+  userId     String      @unique
+  name       String
+  bio        String?
+  slug       String      @unique
+  theme      String      @default("default")
+  avatar     String?     // relative URL e.g. /uploads/avatars/<userId>.jpg
+  bgType     String      @default("default")  // "default" | "solid" | "gradient" | "image"
+  bgValue    String?                           // hex | gradient-key | /uploads/bg/<userId>.jpg
+  bgOverlay    Float       @default(0.0)         // -0.7–0.7, overlay darkness for image bg
+  bgEffect     String      @default("none")       // "none" | "blur"
+  bgPattern    String      @default("none")       // "none" | "dots" | "grid" | "diagonal" | "noise"
+  btnStyle     String      @default("default")   // "default" | "solid" | "glass" | "outline"
+  btnRadius    String      @default("default")   // "default" | "square" | "rounded" | "pill"
+  btnColor     String?                           // hex color
+  btnTextColor String?                           // hex color
+  fontFamily   String      @default("default")
+  fontColor    String?                           // hex color
+  onboarded    Boolean     @default(false)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  links      Link[]
+  analytics  Analytics[]
+  socialIcons SocialIcon[]
+}
+
+model SocialIcon {
+  id        String   @id @default(cuid())
+  profileId String
+  platform  String   // "instagram" | "tiktok" | "youtube" | "x" | "whatsapp" | "spotify" | "linkedin" | "facebook" | "threads"
+  url       String
+  position  Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  profile   Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+model Link {
+  id        String   @id @default(cuid())
+  profileId String
+  title     String
+  url       String
+  active    Boolean  @default(true)
+  featured  Boolean  @default(false)
+  position  Int      @default(0)
+  clicks    Int      @default(0)
+  badge     String?  // "new" | "hot" | "sale" | "event" | "limited"
+  icon      String?  // platform key e.g. "instagram" or emoji e.g. "🎵"
+  type      String   @default("LINK") // "LINK" or "HEADER"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile   Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+model Analytics {
+  id        String   @id @default(cuid())
+  profileId String
+  date      String   // YYYY-MM-DD
+  views     Int      @default(0)
+  clicks    Int      @default(0)
+  profile   Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, date])
+}

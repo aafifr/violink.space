@@ -1,0 +1,122 @@
+.page {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 32px 20px; gap: 20px;
+}
+
+.progress {
+  display: flex; gap: 8px; position: relative; z-index: 1;
+}
+
+.progressDot {
+  width: 28px; height: 6px; border-radius: var(--r-full);
+  background: rgba(17,20,18,.1);
+  transition: background 400ms, width 300ms;
+}
+
+.progressDotActive { background: var(--accent-str); }
+
+.card {
+  position: relative; z-index: 1;
+  width: 100%; max-width: 520px;
+  border-radius: var(--r-xl); padding: 36px 34px;
+  animation: scale-in .4s cubic-bezier(.25,.46,.45,.94) both;
+}
+
+.step { display: flex; flex-direction: column; gap: 20px; animation: step-enter .35s ease both; }
+.stepCenter { align-items: center; text-align: center; }
+
+.heading {
+  font-family: var(--display);
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  letter-spacing: -.04em; line-height: 1.05;
+}
+
+.sub { color: var(--muted); font-size: .96rem; line-height: 1.7; max-width: 380px; }
+
+.featureList { display: grid; gap: 10px; width: 100%; text-align: left; }
+
+.featureItem {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 16px; border-radius: var(--r-md);
+  background: rgba(255,255,255,.52); border: 1px solid var(--line);
+  font-size: .93rem;
+}
+
+.featureCheck { color: var(--accent-str); font-weight: 700; }
+
+.fields { display: grid; gap: 16px; width: 100%; }
+
+.bioInput { resize: vertical; }
+
+.avail { color: var(--success); }
+.taken { color: var(--danger); }
+
+.navRow { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.nextBtn { flex: 1; justify-content: center; }
+
+.linkPreview {
+  padding: 16px 18px; border-radius: var(--r-lg);
+  background: linear-gradient(160deg, rgba(255,255,255,.94), var(--accent-soft));
+  border: 1px solid var(--accent-mid);
+  display: flex; flex-direction: column; gap: 4px;
+}
+.linkPreviewTitle { font-weight: 700; font-size: .95rem; letter-spacing: -.02em; }
+.linkPreviewUrl { font-family: var(--mono); font-size: .78rem; color: var(--muted); }
+
+.themeGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; width: 100%; }
+
+.themeCard {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 16px; border-radius: var(--r-md);
+  border: 1px solid var(--line); background: rgba(255,255,255,.52);
+  font-size: .9rem; transition: var(--transition);
+  position: relative;
+}
+.themeCard:hover { background: rgba(255,255,255,.78); transform: translateY(-1px); }
+.themeCardActive { border-color: var(--accent-mid); background: var(--accent-soft); font-weight: 700; }
+
+.themeSwatch { width: 14px; height: 14px; border-radius: var(--r-circle); flex-shrink: 0; }
+.themeLabel { flex: 1; text-align: left; }
+.themeCheck { color: var(--accent-str); font-weight: 700; font-size: .85rem; }
+
+.themePreview {
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  padding: 24px; border-radius: var(--r-xl);
+  background: var(--bg); border: 1px solid var(--line);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  margin-top: 10px;
+}
+.themePreviewAvatar {
+  width: 52px; height: 52px; border-radius: var(--r-circle);
+  background: var(--accent-soft); border: 1.5px solid var(--accent-mid);
+  display: grid; place-items: center;
+  font-family: var(--display); font-size: 1.3rem; color: var(--accent-str);
+}
+.themePreviewLink {
+  width: 100%; padding: 14px 16px; border-radius: var(--r-md);
+  border: 1px solid; font-weight: 700; font-size: .9rem;
+  transition: background 400ms, border-color 400ms;
+}
+
+.welcomeIcon {
+  display: flex; justify-content: center; align-items: center;
+  margin-bottom: 12px;
+}
+.welcomeIcon img {
+  border-radius: var(--r-md);
+}
+
+.doneIcon { font-size: 3.5rem; line-height: 1; }
+
+.summaryCard {
+  width: 100%; border-radius: var(--r-lg);
+  background: rgba(255,255,255,.6); border: 1px solid var(--line);
+  overflow: hidden;
+}
+.summaryRow {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 12px; padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+}
+.summaryRow:last-child { border-bottom: 0; }
