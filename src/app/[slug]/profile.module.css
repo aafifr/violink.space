@@ -224,7 +224,7 @@
 /* ───── LINK CARD ───── */
 .link {
   display: flex; align-items: center; gap: 14px;
-  padding: 14px 18px;
+  padding: 10px 16px;
   border-radius: var(--pub-link-radius, var(--r-lg));
   background: var(--pub-link-bg, #FFFFFF);
   border: 1px solid var(--pub-link-border, rgba(0,0,0,0.08));
@@ -236,7 +236,7 @@
   transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease, transform 120ms ease;
   /* Clean fade-up animation with no fill-mode so compositor layer is detached after animation */
   animation: fade-up .4s cubic-bezier(.25,.46,.45,.94);
-  min-height: 60px;
+  min-height: 52px;
   position: relative;
 }
 
@@ -254,7 +254,7 @@
 
 /* ───── LINK ICON ───── */
 .linkIcon {
-  width: 40px; height: 40px; border-radius: var(--r-circle);
+  width: 36px; height: 36px; border-radius: var(--r-circle);
   display: grid; place-items: center; flex-shrink: 0;
   overflow: hidden;
 }
@@ -381,7 +381,7 @@
 @media (max-width: 640px) {
   .page { padding: 32px 16px 60px; }
   .card { min-height: calc(100vh - 92px); }
-  .link { padding: 14px 16px; }
+  .link { padding: 10px 14px; }
   .avatarWrap { margin-bottom: 20px; }
   .identity { margin-bottom: 22px; }
 
