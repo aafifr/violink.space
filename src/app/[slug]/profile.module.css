@@ -366,10 +366,11 @@
 .shareBackdrop {
   position: fixed;
   inset: 0;
-  z-index: 200;
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  z-index: 99998;
+  pointer-events: auto;
+  background: rgba(0, 0, 0, 0.48);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   animation: backdropIn 200ms ease both;
 }
 @keyframes backdropIn { from { opacity: 0 } to { opacity: 1 } }
@@ -379,14 +380,15 @@
   position: fixed;
   bottom: 0;
   left: 0; right: 0;
-  z-index: 201;
+  z-index: 99999;
+  pointer-events: auto;
   background: var(--surface, #fff);
-  border-top: 1px solid var(--line, rgba(0,0,0,0.06));
+  border-top: 1px solid var(--line, rgba(0,0,0,0.07));
   border-radius: 24px 24px 0 0;
-  padding: 0 0 env(safe-area-inset-bottom, 20px);
-  box-shadow: 0 -8px 40px rgba(0,0,0,0.18);
+  padding-bottom: env(safe-area-inset-bottom, 16px);
+  box-shadow: 0 -12px 48px rgba(0,0,0,0.22);
   animation: panelSlideUp 280ms cubic-bezier(.32,.72,0,1) both;
-  max-height: 90vh;
+  max-height: 92vh;
   overflow-y: auto;
 }
 @keyframes panelSlideUp { from { transform: translateY(100%) } to { transform: translateY(0) } }
@@ -398,29 +400,28 @@
     left: 50%;
     right: auto;
     transform: translate(-50%, -50%);
-    width: 100%;
+    width: calc(100% - 40px);
     max-width: 420px;
     border-radius: 24px;
-    border: 1px solid var(--line, rgba(0,0,0,0.06));
+    border: 1px solid var(--line, rgba(0,0,0,0.07));
+    box-shadow: 0 20px 60px rgba(0,0,0,0.28), 0 0 0 1px rgba(0,0,0,0.04);
     animation: panelScaleIn 220ms cubic-bezier(.32,.72,0,1) both;
     padding-bottom: 0;
   }
   @keyframes panelScaleIn {
-    from { opacity: 0; transform: translate(-50%, -50%) scale(0.95) }
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.94) }
     to   { opacity: 1; transform: translate(-50%, -50%) scale(1) }
   }
 }
 
-/* drag pill (mobile only) */
-.sharePanel::before {
-  content: "";
-  display: block;
+/* ───── DRAG PILL (mobile visual cue) ───── */
+.sharePill {
   width: 36px; height: 4px;
   border-radius: 99px;
   background: var(--line-mid, rgba(0,0,0,0.12));
   margin: 12px auto 0;
 }
-@media (min-width: 520px) { .sharePanel::before { display: none; } }
+@media (min-width: 520px) { .sharePill { display: none; } }
 
 /* ───── PANEL HEADER ───── */
 .sharePanelHeader {
@@ -480,8 +481,8 @@
 .shareSocialRow {
   display: flex;
   align-items: flex-start;
-  gap: 6px;
-  padding: 0 20px 20px;
+  gap: 4px;
+  padding: 0 16px 20px;
   overflow-x: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -492,13 +493,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
-  min-width: 58px;
+  padding: 4px 2px;
+  min-width: 62px;
   flex-shrink: 0;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
 }
 .shareSocialIcon {
   width: 52px; height: 52px;
@@ -507,14 +510,14 @@
   transition: opacity 150ms, transform 120ms;
   flex-shrink: 0;
 }
-.shareSocialItem:hover .shareSocialIcon { opacity: 0.85; transform: scale(0.95); }
-.shareSocialItem:active .shareSocialIcon { transform: scale(0.88); }
+.shareSocialItem:hover .shareSocialIcon { opacity: 0.82; transform: scale(0.94); }
+.shareSocialItem:active .shareSocialIcon { transform: scale(0.86); opacity: 0.7; }
 .shareSocialLabel {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 600;
   color: var(--ink-2);
   text-align: center;
-  line-height: 1.2;
+  line-height: 1.25;
   white-space: nowrap;
 }
 
@@ -527,17 +530,20 @@
 
 /* ───── CTA SECTION ───── */
 .shareCta {
-  padding: 20px;
+  padding: 20px 20px 16px;
 }
 .shareCtaText {
   font-size: var(--text-sm, 0.875rem);
   color: var(--ink-2);
-  line-height: 1.55;
-  margin-bottom: 14px;
+  line-height: 1.6;
+  margin-bottom: 16px;
 }
 .shareCtaText strong {
   color: var(--ink);
+  font-weight: 700;
 }
+
+/* Primary button — dark solid */
 .shareCtaBtn {
   display: block;
   text-align: center;
@@ -549,7 +555,50 @@
   font-size: var(--text-sm);
   text-decoration: none;
   transition: opacity 150ms, transform 120ms;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
 }
-.shareCtaBtn:hover { opacity: 0.87; transform: translateY(-1px); }
+.shareCtaBtn:hover { opacity: 0.85; transform: translateY(-1px); }
+.shareCtaBtn:active { opacity: 0.75; transform: translateY(0); }
+
+/* Secondary button — outlined */
+.shareCtaBtnSecondary {
+  display: block;
+  text-align: center;
+  padding: 12px 20px;
+  border-radius: var(--r-full, 999px);
+  background: transparent;
+  border: 1.5px solid var(--line-mid, rgba(0,0,0,0.14));
+  color: var(--ink-2);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  text-decoration: none;
+  transition: background 150ms, border-color 150ms, color 150ms;
+  cursor: pointer;
+}
+.shareCtaBtnSecondary:hover { background: var(--bg-strong); color: var(--ink); }
+
+/* ───── REPORT LINK ───── */
+.shareReportWrap {
+  display: flex;
+  justify-content: center;
+  padding: 12px 20px 20px;
+  border-top: 1px solid var(--line, rgba(0,0,0,0.06));
+  margin-top: 4px;
+}
+.shareReportBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: var(--text-xs, 0.75rem);
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: var(--r-sm, 6px);
+  transition: color 150ms, background 150ms;
+}
+.shareReportBtn:hover { color: var(--danger); background: var(--danger-soft); }
 
