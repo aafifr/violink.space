@@ -430,7 +430,7 @@ h1,h2,h3,h4,h5 {
    ============================================================ */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  padding: 8px 14px; border-radius: var(--r-full);
+  padding: 7px 13px; border-radius: var(--r-full);
   font-size: var(--text-sm); font-weight: 700;
   border: 0; transition: var(--transition);
   white-space: nowrap; cursor: pointer;
