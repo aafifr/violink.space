@@ -99,19 +99,15 @@ export default function DesktopPreview({ slug: initialSlug }: { slug: string }) 
               try {
                 const doc = (e.target as HTMLIFrameElement).contentDocument;
                 if (!doc) return;
-                // Remove any previously injected style to avoid stacking
                 doc.getElementById("__preview-island-fix__")?.remove();
-                // Dynamic island overlay sits at ~34px from mockup top.
-                // iframe scale is 0.7405, so extra needed = 34 / 0.7405 ≈ 46px → use 52px breathing room.
-                // Share button: also push it down by same amount so it clears the island.
                 const style = doc.createElement("style");
                 style.id = "__preview-island-fix__";
                 style.textContent = `
                   body > div:first-child, [class*="page"] {
                     padding-top: calc(56px + 52px) !important;
                   }
-                  [class*="shareBtn"] {
-                    top: 64px !important;
+                  [class*="headerButtons"] {
+                    top: 52px !important;
                   }
                 `;
                 doc.head.appendChild(style);

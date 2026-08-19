@@ -59,8 +59,8 @@
 /* ───── MOBILE ───── */
 @media (max-width: 767px) {
   .page {
-    /* Full-bleed padding — extra top clearance for fixed header bar */
-    padding: 80px 20px 80px;
+    /* Full-bleed padding — background extends to top edge cleanly */
+    padding: 48px 20px 80px;
     /* If --adaptive-ink is set, use it to ensure legibility on the background */
     color: var(--adaptive-ink, var(--pub-ink, var(--ink)));
   }
@@ -73,7 +73,8 @@
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     min-height: calc(100vh - 128px);
-    padding: 0;
+    /* Push content below fixed header bar (header ~70px + breathing room) */
+    padding: 40px 0 0;
   }
 }
 
