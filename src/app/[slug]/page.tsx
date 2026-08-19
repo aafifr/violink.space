@@ -138,8 +138,11 @@ export default async function PublicProfilePage({ params }: Props) {
           ...patternStyle,
         }} aria-hidden />
       )}
-      {/* HEADER BAR (Share only) */}
+      {/* HEADER BAR (Logo left | Share right) */}
       <div className={styles.headerButtons}>
+        <a href="/" className={styles.logoBtn} aria-label="VioLink Studio">
+          <img src="/images/logo.png" alt="VioLink" className={styles.logoBtnImg} />
+        </a>
         <ShareButton name={profile.name} slug={profile.slug} />
       </div>
 

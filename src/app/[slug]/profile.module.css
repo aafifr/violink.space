@@ -59,8 +59,8 @@
 /* ───── MOBILE ───── */
 @media (max-width: 767px) {
   .page {
-    /* Full-bleed padding — no card panel visible */
-    padding: 48px 20px 80px;
+    /* Full-bleed padding — extra top clearance for fixed header bar */
+    padding: 80px 20px 80px;
     /* If --adaptive-ink is set, use it to ensure legibility on the background */
     color: var(--adaptive-ink, var(--pub-ink, var(--ink)));
   }
@@ -101,13 +101,15 @@
   opacity: 0.85; /* Ensures the muted look if adaptive-ink is pure white/black */
 }
 
-/* Share button should also adapt since it sits directly on the background */
-.customBgActive .shareBtn {
+/* Share button + Logo button should also adapt since they sit directly on the background */
+.customBgActive .shareBtn,
+.customBgActive .logoBtn {
   color: var(--adaptive-ink, var(--pub-ink, var(--ink))) !important;
   background: rgba(255,255,255,0.08) !important;
   border-color: rgba(255,255,255,0.15) !important;
 }
-.customBgActive .shareBtn:hover {
+.customBgActive .shareBtn:hover,
+.customBgActive .logoBtn:hover {
   background: rgba(255,255,255,0.15) !important;
 }
 
@@ -142,10 +144,10 @@
 
 .avatarCore {
   position: relative; z-index: 1;
-  width: 108px; height: 108px; border-radius: var(--r-circle);
+  width: 96px; height: 96px; border-radius: var(--r-circle);
   background: var(--pub-card-bg, var(--bg));
   border: 2px solid var(--pub-card-border, var(--line));
-  font-family: var(--display); font-size: 2.4rem;
+  font-family: var(--display); font-size: 2.1rem;
   color: var(--accent-str);
   display: grid; place-items: center;
   box-shadow: var(--pub-avatar-ring, none);
@@ -154,7 +156,7 @@
 
 .avatarPhoto {
   position: relative; z-index: 1;
-  width: 108px; height: 108px; border-radius: var(--r-circle);
+  width: 96px; height: 96px; border-radius: var(--r-circle);
   object-fit: cover; display: block;
   box-shadow: var(--pub-avatar-ring, none);
   transition: box-shadow 500ms;
@@ -280,15 +282,43 @@
 }
 .footerBrand:hover { opacity: .6; }
 
-/* ───── HEADER BUTTONS (Share) ───── */
+/* ───── HEADER BUTTONS (Logo left | Share right) ───── */
 .headerButtons {
   position: fixed;
   top: 0; left: 0; right: 0;
   padding: 16px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   z-index: 100;
   pointer-events: none;
+}
+
+/* ───── LOGO BUTTON (top-left) ───── */
+.logoBtn {
+  pointer-events: auto;
+  display: grid;
+  place-items: center;
+  width: 38px; height: 38px;
+  border-radius: var(--r-circle);
+  border: 1px solid var(--pub-link-border, var(--line));
+  background: var(--pub-card-bg, var(--surface));
+  overflow: hidden;
+  animation: fade-up 0.5s 0.15s both;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: opacity 200ms ease, transform 150ms ease;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+.logoBtn:hover { opacity: 0.82; transform: scale(0.95); }
+.logoBtn:active { opacity: 0.65; transform: scale(0.9); }
+
+.logoBtnImg {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: var(--r-circle);
 }
 
 /* ───── SHARE BUTTON ───── */
