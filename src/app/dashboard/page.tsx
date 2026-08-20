@@ -68,6 +68,8 @@ export default function LinksPage() {
   const [dragId, setDragId] = useState<string | null>(null);
   const [dragOverId, setDragOverId] = useState<string | null>(null);
   const [activePicker, setActivePicker] = useState<"icon" | "badge" | null>(null);
+  const [iconUploading, setIconUploading] = useState(false);
+  const iconUploadRef = useRef<HTMLInputElement>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [showAddDrawer, setShowAddDrawer] = useState(false);
   const [actionMenuId, setActionMenuId] = useState<string | null>(null);
@@ -79,6 +81,30 @@ export default function LinksPage() {
   const addDrawerInputRef = useRef<HTMLInputElement>(null);
 
   const showToast = (msg: string) => setToast(msg);
+
+  // Upload custom icon image for a link
+  const handleIconUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setIconUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/upload/link-icon", { method: "POST", body: fd });
+      const data = await res.json();
+      if (data.url) {
+        setEditIcon(data.url);
+      } else {
+        showToast(data.error ?? "Upload failed");
+      }
+    } catch {
+      showToast("Upload failed — please try again");
+    } finally {
+      setIconUploading(false);
+      // reset so the same file can be re-selected
+      if (iconUploadRef.current) iconUploadRef.current.value = "";
+    }
+  };
 
   // Signal DesktopPreview to reload after any data change
   const notifyPreview = () => {
@@ -373,6 +399,63 @@ export default function LinksPage() {
                 {activePicker === "icon" && (
                   <div className={styles.pickerSection}>
                     <p className={styles.pickerLabel}>Icon</p>
+
+                    {/* ── CUSTOM IMAGE UPLOAD ── */}
+                    <div className={styles.iconUploadSection}>
+                      <span className={styles.iconUploadLabel}>Custom image</span>
+
+                      {/* Hidden file input */}
+                      <input
+                        ref={iconUploadRef}
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml"
+                        style={{ display: "none" }}
+                        onChange={handleIconUpload}
+                      />
+
+                      {/* If a custom image URL is set — show preview */}
+                      {editIcon?.startsWith("http") ? (
+                        <div className={styles.iconUploadPreview}>
+                          <img
+                            src={editIcon}
+                            alt="Custom icon"
+                            className={styles.iconUploadThumb}
+                          />
+                          <div className={styles.iconUploadBtns}>
+                            <button
+                              className={styles.iconUploadBtn}
+                              onClick={() => iconUploadRef.current?.click()}
+                              disabled={iconUploading}
+                            >
+                              {iconUploading
+                                ? <><span className={styles.iconUploadSpin} /> Uploading…</>
+                                : <>🔄 Change</>}
+                            </button>
+                            <button
+                              className={`${styles.iconUploadBtn} ${styles.iconUploadBtnDanger}`}
+                              onClick={() => setEditIcon("")}
+                              disabled={iconUploading}
+                            >
+                              ✕ Remove
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        /* No custom image yet — show upload trigger */
+                        <button
+                          className={styles.iconUploadBtn}
+                          onClick={() => iconUploadRef.current?.click()}
+                          disabled={iconUploading}
+                        >
+                          {iconUploading
+                            ? <><span className={styles.iconUploadSpin} /> Uploading…</>
+                            : <>📁 Upload custom image</>}
+                        </button>
+                      )}
+                    </div>
+
+                    {/* ── PRESET PLATFORM ICONS ── */}
+                    <span className={styles.iconPresetLabel}>Preset icons</span>
                     <div className={styles.iconGrid}>
                       <button className={styles.iconOpt + (!editIcon ? " " + styles.iconOptActive : "")}
                         onClick={() => setEditIcon("")} title="No icon">

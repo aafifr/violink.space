@@ -194,6 +194,89 @@
 .badgeOpt:hover { background: rgba(255,255,255,.8); }
 .badgeOptActive { font-weight: 700; border-color: currentColor; }
 
+/* CUSTOM ICON UPLOAD */
+.iconUploadSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 4px;
+}
+
+.iconUploadLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.iconUploadPreview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.iconUploadThumb {
+  width: 44px; height: 44px;
+  border-radius: var(--r-sm);
+  border: 1.5px solid var(--accent);
+  object-fit: cover;
+  background: var(--bg-strong);
+  flex-shrink: 0;
+}
+
+.iconUploadBtns {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.iconUploadBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line-mid);
+  background: rgba(255,255,255,.7);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+.iconUploadBtn:hover { background: rgba(255,255,255,.95); border-color: var(--line-mid); color: var(--ink); }
+.iconUploadBtn:disabled { opacity: .5; pointer-events: none; }
+
+.iconUploadBtnDanger {
+  color: var(--danger);
+  border-color: rgba(220,38,38,0.2);
+  background: var(--danger-soft);
+}
+.iconUploadBtnDanger:hover { background: rgba(220,38,38,0.14); }
+
+.iconUploadSpin {
+  width: 14px; height: 14px;
+  border: 2px solid rgba(0,0,0,0.12);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: iconSpin .7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes iconSpin { to { transform: rotate(360deg); } }
+
+.iconPresetLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-top: 4px;
+}
+
 /* ACTIONS */
 .actions { display: flex; gap: 14px; align-items: center; flex-shrink: 0; margin-left: 4px; }
 .actionsDivider { display: none; }
